@@ -9,11 +9,13 @@ class DemandLetterIssueUserController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'demand_letter_issue_id' => 'required|exists:demand_letter_issues,id',
-            'candidate_list' => 'required|array',
-        ]);
+
+        // $request->validate([
+        //     'user_id' => 'required|exists:users,id',
+        //     'demand_letter_issue_id' => 'required|exists:demand_letter_issues,id',
+        //     'candidate_list' => 'required|array',
+        // ]);
+
 
         $entry = DemandLetterIssueUser::create([
             'user_id' => $request->user_id,

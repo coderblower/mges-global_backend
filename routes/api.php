@@ -20,10 +20,12 @@ use App\Http\Controllers\SkillListController;
 use App\Http\Controllers\SkillTestController;
 use App\Http\Controllers\TestByCountryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DemandLetterIssueUserController;
 use App\Models\DemandLetter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -218,6 +220,7 @@ Route::group(['name'=>'Pre Demand Letter','middleware' => 'api','prefix' => 'pre
 
 });
 
+
 Route::group(['name'=>'Notification','middleware' => 'api'], function () {
 
 
@@ -227,7 +230,22 @@ Route::group(['name'=>'Notification','middleware' => 'api'], function () {
 
 
 
+
 });
+
+Route::group(['name'=>'sf','middleware' => 'api', 'prefix'=>'candidate_assign'], function () {
+
+
+    Route::post('/store', [DemandLetterIssueUserController::class, 'store']);
+
+    Route::get('/all', [DemandLetterIssueUserController::class, 'index']);
+
+
+
+ });
+
+
+
 
 
 
