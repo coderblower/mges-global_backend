@@ -19,6 +19,11 @@ class PreDemandLetter extends Model
 
     ];
 
+    protected $attributes = [
+        'positions' => '[]',          // default empty array
+             // Setting a default empty array for the attribute
+    ];
+
     public function demandLetterIssues()
     {
         return $this->hasMany(DemandLetterIssue::class, 'predemand_letter_id');

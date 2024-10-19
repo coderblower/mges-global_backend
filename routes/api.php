@@ -9,6 +9,7 @@ use App\Http\Controllers\DemandLetterController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\FinalTestController;
 use App\Http\Controllers\MedicalTestListController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PreDemandLetterController;
@@ -194,7 +195,7 @@ Route::group(['name'=>'Demand Letter','middleware' => 'api','prefix' => 'demand_
 
 Route::group(['name'=>'Pre Demand Letter','middleware' => 'api','prefix' => 'pre_demand_letter'], function () {
 
-    Route::post('/assignAgent', [PreDemandLetterController::class, 'assignAgent']);
+    Route::post('/assignAgent', [PreDemandLetterController::class, 'adminAssignAgentForPreDemandLetter']);
     Route::get('/getAllAgent', [PreDemandLetterController::class, 'getAllAgent']);
     // Admin panel
     Route::get('get_demand_list_by_admin', [PreDemandLetterController::class, 'getFilteredDemandLettersWithUser']);
@@ -215,9 +216,22 @@ Route::group(['name'=>'Pre Demand Letter','middleware' => 'api','prefix' => 'pre
 
 
 
+});
 
+Route::group(['name'=>'Notification','middleware' => 'api'], function () {
+
+
+   Route::get('/notifications', [NotificationController::class, 'index']);
+
+   Route::get('/notifications/seen', [NotificationController::class, 'markAsSeen']);
 
 
 
 });
+
+
+
+
+
+
 

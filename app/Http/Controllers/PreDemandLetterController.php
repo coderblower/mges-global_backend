@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DemandLetter;
+
 use App\Models\DemandLetterIssue;
 use App\Models\PreDemandLetter;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Partner;
+use App\Notifications\AgentGetNewPreDemandLetterNotification;
+use App\Notifications\AgencyGetNewDemandLetterOrder;
+use App\Notifications\AgencySendDemandLetterToAdmin;
+use App\Notifications\AdminSendDemandLetterToAgent;
+use App\Notifications\HiringAgencyMakePreDemandLetter;
+
+
+
 
 class PreDemandLetterController extends Controller
 {
@@ -30,17 +39,34 @@ class PreDemandLetterController extends Controller
 
     public function store(Request $request)
     {
-
+        // Validate the request
         $request->validate([
             'description' => 'required',
-            'positions' => 'required|array',
+            'positions' => 'required|array',  // This ensures positions must be an array
             'terms_conditions' => 'required|string',
         ]);
 
-        $demandLetter = PreDemandLetter::create($request->all());
+        // Log the input to ensure positions is an array
 
+
+        // Create the PreDemandLetter record
+        $demandLetter = PreDemandLetter::create([
+            'description' => $request->input('description'),
+            'positions' => $request->input('positions'), // Ensure it's passed as an array
+            'terms_conditions' => $request->input('terms_conditions'),
+            'bd_agency_agree' => [],
+        ]);
+
+        // Notify all admins
+        $admins = User::where('role_id', 1)->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new HiringAgencyMakePreDemandLetter());
+        }
+
+        // Return a JSON response with the created demand letter
         return response()->json($demandLetter, 201);
     }
+
 
     public function destroy($id)
     {
@@ -97,11 +123,23 @@ class PreDemandLetterController extends Controller
 
 
 
+
+
+
         if($predemandLetter){
 
                 $predemandLetter->bd_agency_agree = $newAgreements;
                 $predemandLetter->save();
         }
+
+        $usersWithRole6 = User::where('role_id', 6)->get();
+
+        // Send notification to each user
+        foreach ($usersWithRole6 as $user) {
+            $user->notify(new AgencyGetNewDemandLetterOrder());
+        }
+
+
         return response()->json([
             'success'=> 'Status changed Successfully',
             'data' => $predemandLetter
@@ -132,12 +170,14 @@ class PreDemandLetterController extends Controller
     }
 
     public function agreed_pdl_to_agency(){
+
         $preDemandLetters = PreDemandLetter::whereJsonLength('bd_agency_agree', '>', 0)->paginate(10);
         return response()->json($preDemandLetters);
     }
 
 
     public function agreed_pdl_to_agency_single($id){
+
 
         $preDemandLetter = PreDemandLetter::find($id);
         $userIds = $preDemandLetter->bd_agency_agree;
@@ -157,6 +197,14 @@ class PreDemandLetterController extends Controller
             'predemand_letter_id' => $preId,
             'agency_verify' => now()
         ]);
+
+        $admin = User::where('role_id', 1)->get();
+
+        // Send notification to each user
+        foreach ($admin as $user) {
+            $user->notify(new AgencySendDemandLetterToAdmin());
+        }
+
         return $deamndLetter;
     }
 
@@ -210,10 +258,14 @@ class PreDemandLetterController extends Controller
         $user = User::with('demandLetterIssues')->find($id);
 
         if ($user) {
+
+            $user->notify(new AdminSendDemandLetterToAgent($user));
+
             foreach ($user->demandLetterIssues as $issue) {
                 // Update the admin_verify field to now()
                 $issue->admin_verify = Carbon::now(); // Set to current date and time
                 $issue->save(); // Save the changes
+
             }
 
             return response()->json(['message' => 'Admin verify updated successfully.']);
@@ -247,8 +299,9 @@ class PreDemandLetterController extends Controller
         }
     }
 
-    public function assignAgent(Request $request)
+    public function adminAssignAgentForPreDemandLetter(Request $request)
 {
+
     // Validate the request to ensure `pre_demand_id` and `selectedAgents` are provided
     $request->validate([
         'pre_demand_id' => 'required|integer',
@@ -256,11 +309,13 @@ class PreDemandLetterController extends Controller
         'selectedAgents.*' => 'integer' // Ensure all elements of the array are integers
     ]);
 
+
     // Find the PreDemandLetter by the provided pre_demand_id
     $preDemandLetter = PreDemandLetter::findOrFail($request->pre_demand_id);
 
     // Get the selected agents from the request
     $selectedAgents = $request->selectedAgents;
+
 
     // Update the `approved_agency_list` with the new agents
     $preDemandLetter->approved_agency_list = $selectedAgents;
@@ -268,6 +323,21 @@ class PreDemandLetterController extends Controller
 
     // Save the changes to the PreDemandLetter
     $preDemandLetter->save();
+
+
+    // Notify each user (agent) in the `selectedAgents` array
+    foreach ($selectedAgents as $agentId) {
+        // Find the agent (user) by their ID
+        $agent = User::find($agentId);
+
+
+        if ($agent) {
+            // Send notification to the agent
+            $agent->notify(new AgentGetNewPreDemandLetterNotification());
+        }
+    }
+
+
 
     // Return a response
     return response()->json([
