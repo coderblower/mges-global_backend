@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -49,13 +47,17 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * JWT Identifier
+     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
     /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
+     * Custom JWT Claims
      *
      * @return array
      */
@@ -63,52 +65,57 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // Relationships
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
-//    public function role()
-//    {
-//        return $this->belongsTo(Role::class);
-//    }
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'id', 'user_id');
     }
+
     public function report()
     {
         return $this->belongsTo(CandidateMedicalTest::class, 'id', 'user_id');
     }
+
     public function preskilled()
     {
         return $this->belongsTo(PreSkilledTest::class, 'id', 'user_id');
     }
+
     public function skill()
     {
         return $this->belongsTo(SkillTest::class, 'id', 'user_id');
     }
+
     public function partner()
     {
         return $this->belongsTo(Partner::class, 'id', 'user_id');
     }
-    public function medical_center()
+
+    public function medicalCenter()
     {
-        return $this->belongsTo(User::class, 'id', 'medical_center_id');
+        return $this->belongsTo(User::class, 'medical_center_id', 'id');
     }
-    public function createdby()
+
+    public function createdBy()
     {
-        return $this->belongsTo(User::class,'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
+
     public function child()
     {
-        return $this->hasMany(User::class,'created_by', 'id');
+        return $this->hasMany(User::class, 'created_by', 'id');
     }
+
+    // Correct demandLetterIssues relation using belongsToMany for pivot table
     public function demandLetterIssues()
     {
-        return $this->hasMany(DemandLetterIssue::class, 'user_id');
+        return $this->belongsToMany(DemandLetterIssue::class, 'demand_letter_issue_user', 'user_id', 'demand_letter_issue_id');
     }
-
-
-
 }
-

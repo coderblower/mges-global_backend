@@ -21,6 +21,7 @@ class CandidateController extends Controller
         $this->middleware('auth:api', ['except' => ['send_sms']]);
     }
     public function create(Request $request){
+        return $request->all();
 //        try {
 //            $data = new Candidate();
 //            $data->user_id = auth()->user()->id;

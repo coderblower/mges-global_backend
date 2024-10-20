@@ -42,4 +42,7 @@ class DemandLetterIssue extends Model
     {
         return $this->belongsTo(Partner::class, 'user_id', 'user_id');
     }
+
+
+
 }

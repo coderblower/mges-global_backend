@@ -240,6 +240,8 @@ Route::group(['name'=>'sf','middleware' => 'api', 'prefix'=>'candidate_assign'],
 
     Route::get('/all', [DemandLetterIssueUserController::class, 'index']);
 
+    Route::get('/get_all_Selected_Candidate/{demand_letter_id}', [DemandLetterIssueUserController::class, 'getSelectedCandidate']);
+
 
 
  });
