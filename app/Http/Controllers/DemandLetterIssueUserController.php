@@ -5,27 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\DemandLetterIssueUser;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class DemandLetterIssueUserController extends Controller
 {
     public function store(Request $request)
     {
-
-        // $request->validate([
-        //     'user_id' => 'required|exists:users,id',
-        //     'demand_letter_issue_id' => 'required|exists:demand_letter_issues,id',
-        //     'candidate_list' => 'required|array',
-        // ]);
-
-
-        $entry = DemandLetterIssueUser::create([
-            'user_id' => $request->user_id,
-            'demand_letter_issue_id' => $request->demand_letter_issue_id,
-            'candidate_list' => $request->candidate_list,
+        // Validate the request
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'demand_letter_issue_id' => 'required|exists:demand_letter_issues,id',
+            'candidate_list' => 'required|array',
         ]);
 
+        // Try to find an existing record with the same demand_letter_issue_id and user_id
+        $entry = DemandLetterIssueUser::where('user_id', $request->user_id)
+            ->where('demand_letter_issue_id', $request->demand_letter_issue_id)
+            ->first();
+
+        if ($entry) {
+            // Update the existing entry's candidate_list
+            $entry->candidate_list = array_merge( $request->candidate_list, $entry->candidate_list);
+            $entry->save();
+        } else {
+            // Create a new entry if none exists
+            $entry = DemandLetterIssueUser::create([
+                'user_id' => $request->user_id,
+                'demand_letter_issue_id' => $request->demand_letter_issue_id,
+                'candidate_list' => $request->candidate_list,
+            ]);
+        }
+
+        // Return the created or updated entry
         return response()->json($entry, 201);
     }
+
 
     public function index()
     {
@@ -84,6 +98,35 @@ class DemandLetterIssueUserController extends Controller
         // Compare the counts
         return $firstQueryCount >= $secondQueryCount;
 
+    }
+
+    public function candidateListToAssign(Request $request){
+
+
+
+
+        $candidateList=[];
+        $demandLetterIssueUser = DemandLetterIssueUser::where('user_id', auth()->user()->id)
+        ->where('demand_letter_issue_id', $request->can_id)
+        ->first();
+
+    // Step 2: Get the candidate_list
+
+    if($demandLetterIssueUser ){
+        $candidateList = $demandLetterIssueUser->candidate_list;
+    }
+
+    // Step 3: Query users that are not in the candidate list
+    $users = User::whereNotIn('id', $candidateList) // Use whereNotIn to filter out the candidate IDs
+        ->where('created_by', auth()->user()->id)
+        ->where('role_id', 5)
+        ->whereHas('candidate', function($query) {
+            $query->where('approval_status', 'approved'); // Filter for approved candidates
+        })
+        ->with('candidate')
+        ->paginate(10);
+
+        return $users;
     }
 
 

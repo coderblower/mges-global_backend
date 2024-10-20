@@ -10,6 +10,7 @@ use App\Models\Quota;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\DemandLetterIssue;
 
 class PartnerController extends Controller
 {
@@ -208,23 +209,19 @@ class PartnerController extends Controller
 
     public function get_demand_letters($id){
 
-        $userWithVerifiedDemandLetterIssues = User::with([
-            'demandLetterIssues' => function ($query) {
-                // Filter to only get demandLetterIssues where admin_verify is not null
-                $query->whereNotNull('admin_verify')
-                      ->with('preDemandLetter', 'partner'); // Load related PreDemandLetter and Partner data
+        $demandLetterIssues = DemandLetterIssue::with([
+            'preDemandLetter' => function ($query) {
+                // No extra conditions needed here as it's based on the predemand_letter_id relationship
             }
         ])
-        ->where('id', $id) // Filter to get the user with a specific ID (e.g., user ID = 2)
-        ->whereHas('demandLetterIssues', function($query) {
-            // Ensure demandLetterIssues have both agency_verify and admin_verify not null
-            $query->whereNotNull('agency_verify')
-                  ->whereNotNull('admin_verify');
-        })
+        ->where('user_id', $id)
+        ->whereNotNull('admin_verify')
         ->get();
 
 
-        return $userWithVerifiedDemandLetterIssues;
+
+
+        return $demandLetterIssues;
 
     }
 

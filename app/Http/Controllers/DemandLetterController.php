@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\DemandLetter;
 use Illuminate\Http\Request;
 
+use App\Models\DemandLetterIssue;
+
 class DemandLetterController extends Controller
 {
     public function index()
@@ -51,13 +53,20 @@ class DemandLetterController extends Controller
 
     public function show($id)
     {
-        $demandLetter = DemandLetter::find($id);
+        $demandLetterIssues = DemandLetterIssue::with([
+            'preDemandLetter' => function ($query) {
 
-        if (!$demandLetter) {
-            return response()->json(['message' => 'Demand letter not found'], 404);
-        }
+            }, 'user'
+        ])
+        ->where('id', $id)
 
-        return response()->json($demandLetter, 200);
+        ->get();
+
+
+
+
+
+        return response()->json($demandLetterIssues, 200);
     }
 
 

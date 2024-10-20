@@ -236,11 +236,13 @@ Route::group(['name'=>'Notification','middleware' => 'api'], function () {
 Route::group(['name'=>'sf','middleware' => 'api', 'prefix'=>'candidate_assign'], function () {
 
 
+    Route::post('/candidate_list_to_assign', [DemandLetterIssueUserController::class, 'candidateListToAssign']);
+
     Route::post('/store', [DemandLetterIssueUserController::class, 'store']);
 
     Route::get('/all', [DemandLetterIssueUserController::class, 'index']);
 
-    Route::get('/get_all_Selected_Candidate/{demand_letter_id}', [DemandLetterIssueUserController::class, 'getSelectedCandidate']);
+    Route::post('/get_all_Selected_Candidate/{demand_letter_id}', [DemandLetterIssueUserController::class, 'getSelectedCandidate']);
 
 
 
