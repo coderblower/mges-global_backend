@@ -21,10 +21,12 @@ use App\Http\Controllers\SkillTestController;
 use App\Http\Controllers\TestByCountryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DemandLetterIssueUserController;
+use App\Http\Controllers\VideoCallController;
 use App\Models\DemandLetter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -210,6 +212,8 @@ Route::group(['name'=>'Pre Demand Letter','middleware' => 'api','prefix' => 'pre
     Route::get('/index', [PreDemandLetterController::class, 'index']);
     Route::post('/store', [PreDemandLetterController::class, 'store']);
     Route::post('/list', [PreDemandLetterController::class, 'agentView']);
+    Route::post('/agreed_list', [PreDemandLetterController::class, 'agreed_predemand_letter']);
+    Route::get('/agent_list_in_agreed/{id}', [PreDemandLetterController::class, 'getUsersFromBdAgencyAgree']);
     Route::get('/{id}', [PreDemandLetterController::class, 'show']);
     Route::post('status_approve/{id}', [PreDemandLetterController::class, 'changeStatus'])->name('pre_demand_letter.changeStatus');
     Route::post('demand_single/{id}/{preId}', [PreDemandLetterController::class, 'demand_letter_make']);
@@ -248,7 +252,15 @@ Route::group(['name'=>'sf','middleware' => 'api', 'prefix'=>'candidate_assign'],
 
  });
 
+ Route::group(['name'=>'sf','middleware' => 'api', 'prefix'=>'video_call'], function () {
 
+
+  // routes/api.php
+Route::post('/start_call', [VideoCallController::class, 'startCall']);
+
+
+
+ });
 
 
 

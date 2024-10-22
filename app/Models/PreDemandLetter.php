@@ -15,7 +15,8 @@ class PreDemandLetter extends Model
     protected $casts = [
         'positions' => 'array',
         'bd_agency_agree' => 'array',
-        'approved_agency_list'=>'array'
+        'approved_agency_list'=>'array',
+        'admin_approved_pre_demand'=>'array'
 
     ];
 
@@ -28,4 +29,6 @@ class PreDemandLetter extends Model
     {
         return $this->hasMany(DemandLetterIssue::class, 'predemand_letter_id');
     }
+    // In App\Models\PreDemandLetter
+
 }

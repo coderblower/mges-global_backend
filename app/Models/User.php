@@ -118,4 +118,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(DemandLetterIssue::class, 'demand_letter_issue_user', 'user_id', 'demand_letter_issue_id');
     }
+    // In App\Models\User
+  // In App\Models\User
+
+
 }

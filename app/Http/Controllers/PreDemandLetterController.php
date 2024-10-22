@@ -37,6 +37,40 @@ class PreDemandLetterController extends Controller
     return response()->json($predemandLetters);
     }
 
+    public function agreed_predemand_letter(Request $request)
+    {
+        $predemandLetters = PreDemandLetter::whereNotNull('bd_agency_agree') // Assuming you want to check the current user's ID
+        ->paginate(10);
+
+        return response()->json($predemandLetters);
+
+    }
+
+    public function getUsersFromBdAgencyAgree($id)
+    {
+        // Find the PreDemandLetter by ID
+        $preDemandLetter = PreDemandLetter::find($id);
+
+        if (!$preDemandLetter) {
+            return response()->json(['message' => 'PreDemandLetter not found.'], 404);
+        }
+
+        // Check if bd_agency_agree is set and is an array
+        if (is_array($preDemandLetter->bd_agency_agree) && count($preDemandLetter->bd_agency_agree) > 0) {
+            // Fetch all users whose ID is in the bd_agency_agree array
+            $users = User::whereIn('id', $preDemandLetter->bd_agency_agree)->with('partner')->get();
+
+            return response()->json([
+                'pre_demand_letter' => $preDemandLetter,
+                'users' => $users
+            ]);
+        }
+    }
+
+
+
+
+
     public function store(Request $request)
     {
         // Validate the request
@@ -220,60 +254,55 @@ class PreDemandLetterController extends Controller
 
 
     public function getFilteredDemandLettersWithUser()
-    {
-        // Fetch data with eager loading of `user` and `preDemandLetter`
-        // $demandLetters = DemandLetterIssue::whereNull('admin_verify') // Condition where `admin_verify` is null
-        //     ->whereNotNull('agency_verify') // Condition where `agency_verify` is not null
-        //     ->with(['user', 'preDemandLetter']) // Eager load related `user` and `preDemandLetter`
-        //     ->get();
+{
+    // Fetch DemandLetterIssue data with related preDemandLetter and user
+    $demandLetterIssues = DemandLetterIssue::with(['preDemandLetter', 'user', 'partner']) // Eager load preDemandLetter and user relationships
+        ->whereNotNull('agency_verify') // Filter condition for agency_verify
 
-        // return response()->json($demandLetters);
+        ->paginate(10); // Paginate results to 10 per page
 
-        $usersWithLettersAndPartners = User::with([
-            'demandLetterIssues.preDemandLetter', // Load PreDemandLetter data
-            'demandLetterIssues.partner'          // Load Partner data
-        ])
-        ->whereHas('demandLetterIssues', function($query) {
-            // Additional filter, for example:
-            $query->whereNotNull('agency_verify');
+    // Prepare the data for React consumption
+    $response = [
+        'data' => $demandLetterIssues->items(),  // Get paginated data
+        'pagination' => [
+            'total' => $demandLetterIssues->total(),
+            'per_page' => $demandLetterIssues->perPage(),
+            'current_page' => $demandLetterIssues->currentPage(),
+            'last_page' => $demandLetterIssues->lastPage(),
+        ]
+    ];
 
-        })
-        ->get();
-
-
-
-        return $usersWithLettersAndPartners;
-    }
+    // Return the response as JSON for the frontend
+    return response()->json($response);
+}
 
     public function approve_demand_letter($id)
     {
-        // Fetch data with eager loading of `user` and `preDemandLetter`
-        // $demandLetters = DemandLetterIssue::whereNull('admin_verify') // Condition where `admin_verify` is null
-        //     ->whereNotNull('agency_verify') // Condition where `agency_verify` is not null
-        //     ->with(['user', 'preDemandLetter']) // Eager load related `user` and `preDemandLetter`
-        //     ->get();
+        // Find the DemandLetterIssue by ID and eager load the related user
+        $demandLetterIssue = DemandLetterIssue::with('user')->find($id);
 
-        // return response()->json($demandLetters);
-         // Change this to the user ID you want to update
-        $user = User::with('demandLetterIssues')->find($id);
-
-        if ($user) {
-
-            $user->notify(new AdminSendDemandLetterToAgent($user));
-
-            foreach ($user->demandLetterIssues as $issue) {
-                // Update the admin_verify field to now()
-                $issue->admin_verify = Carbon::now(); // Set to current date and time
-                $issue->save(); // Save the changes
-
-            }
-
-            return response()->json(['message' => 'Admin verify updated successfully.']);
-        } else {
-            return response()->json(['message' => 'User not found.'], 404);
+        if (!$demandLetterIssue) {
+            return response()->json(['message' => 'Demand Letter Issue not found.'], 404);
         }
 
+        // Update the admin_verify field to the current time
+        $demandLetterIssue->admin_verify = \Carbon\Carbon::now();
+        $demandLetterIssue->save(); // Save the updated model
+
+        // Get the user associated with this specific DemandLetterIssue
+        $user = $demandLetterIssue->user;
+
+
+        if ($user) {
+            // Send notification to this specific user
+            $user->notify(new AdminSendDemandLetterToAgent($user));
+
+            return response()->json(['message' => 'Admin verify updated successfully for user ID ' . $user->id]);
+        } else {
+            return response()->json(['message' => 'User not found for this demand letter issue.'], 404);
+        }
     }
+
 
     public function already(){
         $demandLetterIssues = DemandLetterIssue::whereNotNull('admin_verify')->get();
