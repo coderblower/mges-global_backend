@@ -200,6 +200,8 @@ Route::group(['name'=>'Demand Letter','middleware' => 'api','prefix' => 'demand_
 Route::group(['name'=>'Pre Demand Letter','middleware' => 'api','prefix' => 'pre_demand_letter'], function () {
 
     Route::post('/assignAgent', [PreDemandLetterController::class, 'adminAssignAgentForPreDemandLetter']);
+    Route::post('/admin_approve_agent_agreed_pre_demand/{id}', [PreDemandLetterController::class, 'adminApprovedAgentAgreedPreDemand']);
+
     Route::get('/getAllAgent', [PreDemandLetterController::class, 'getAllAgent']);
     // Admin panel
     Route::get('get_demand_list_by_admin', [PreDemandLetterController::class, 'getFilteredDemandLettersWithUser']);

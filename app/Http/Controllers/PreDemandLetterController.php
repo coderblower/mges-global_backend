@@ -310,6 +310,27 @@ class PreDemandLetterController extends Controller
         return $demandLetterIssues;
     }
 
+    public function adminApprovedAgentAgreedPreDemand($id, Request $request)
+    {
+        // Find the PreDemandLetter by ID
+        $predemand = PreDemandLetter::find($id);
+        
+        // Ensure the PreDemandLetter exists
+        if (!$predemand) {
+            return response()->json(['message' => 'PreDemandLetter not found'], 404);
+        }
+    
+        // Set the admin_approved_pre_demand column with the incoming request payload
+        $predemand->admin_approved_pre_demand = $request->all(); // Laravel automatically casts this to JSON
+        
+        // Save the changes to the database
+        $predemand->save();
+    
+        // Return the updated PreDemandLetter as JSON response
+        return response()->json($predemand, 200);
+    }
+    
+
 
     public function getAllAgent(){
         try {
