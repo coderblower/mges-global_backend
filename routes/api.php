@@ -22,6 +22,7 @@ use App\Http\Controllers\TestByCountryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DemandLetterIssueUserController;
 use App\Http\Controllers\VideoCallController;
+use App\Http\Controllers\ContractLetterController;
 use App\Models\DemandLetter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -264,6 +265,22 @@ Route::post('/start_call', [VideoCallController::class, 'startCall']);
 
  });
 
+
+ Route::group(['name'=>'Contract Letter','middleware' => 'api', 'prefix'=>'contract_letter'], function () {
+
+
+
+
+
+    // Basic resource routes for ContractLetter
+    Route::resource('contract', ContractLetterController::class);
+    Route::post('already_send_varify', [ContractLetterController::class, 'already_send_varify']);
+
+
+
+
+
+   });
 
 
 

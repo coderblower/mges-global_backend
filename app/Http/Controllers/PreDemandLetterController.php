@@ -205,25 +205,51 @@ class PreDemandLetterController extends Controller
 
     public function agreed_pdl_to_agency(){
 
-        $preDemandLetters = PreDemandLetter::whereJsonLength('bd_agency_agree', '>', 0)->paginate(10);
+        $preDemandLetters = PreDemandLetter::whereJsonLength('admin_approved_pre_demand', '>', 0)->paginate(10);
         return response()->json($preDemandLetters);
     }
 
 
-    public function agreed_pdl_to_agency_single($id){
-
-
+    public function agreed_pdl_to_agency_single($id)
+    {
+        // Fetch the pre-demand letter by ID
         $preDemandLetter = PreDemandLetter::find($id);
-        $userIds = $preDemandLetter->bd_agency_agree;
 
-        // Fetch user data using those IDs
-        $users = User::whereIn('id', $userIds)->get();
+        // Check if pre-demand letter exists
+        if (!$preDemandLetter) {
+            return response()->json(['error' => 'Pre-Demand Letter not found.'], 404);
+        }
+
+        // Extract the admin approved pre demand data
+        $approvedPreDemandData = $preDemandLetter->admin_approved_pre_demand;
+
+        // Initialize an array to hold user IDs and their positions
+        $userPositions = [];
+
+        foreach ($approvedPreDemandData as $data) {
+            $userId = $data['id'];
+            $positions = $data['positions'];
+
+            // Add the user ID and positions to the array
+            $userPositions[$userId] = $positions;
+        }
+
+        // Fetch user data using the user IDs
+        $users = User::whereIn('id', array_keys($userPositions))->get();
+
+        // Attach positions to each user
+        foreach ($users as $user) {
+            $user->positions = $userPositions[$user->id] ?? []; // Attach positions or an empty array if none
+        }
+
+        // Attach users to the pre-demand letter object
         $preDemandLetter->users = $users;
 
-
-
-        return $preDemandLetter;
+        // Return the pre-demand letter along with the associated users
+        return response()->json($preDemandLetter);
     }
+
+
 
     public function demand_letter_make($id, $preId){
         $deamndLetter = DemandLetterIssue::create([
@@ -314,22 +340,22 @@ class PreDemandLetterController extends Controller
     {
         // Find the PreDemandLetter by ID
         $predemand = PreDemandLetter::find($id);
-        
+
         // Ensure the PreDemandLetter exists
         if (!$predemand) {
             return response()->json(['message' => 'PreDemandLetter not found'], 404);
         }
-    
+
         // Set the admin_approved_pre_demand column with the incoming request payload
         $predemand->admin_approved_pre_demand = $request->all(); // Laravel automatically casts this to JSON
-        
+
         // Save the changes to the database
         $predemand->save();
-    
+
         // Return the updated PreDemandLetter as JSON response
         return response()->json($predemand, 200);
     }
-    
+
 
 
     public function getAllAgent(){

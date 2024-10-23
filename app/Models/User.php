@@ -121,5 +121,9 @@ class User extends Authenticatable implements JWTSubject
     // In App\Models\User
   // In App\Models\User
 
+  public function contractLetters()
+  {
+      return $this->belongsToMany(ContractLetter::class, 'contract_letter_user');
+  }
 
 }
