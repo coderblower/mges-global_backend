@@ -9,6 +9,7 @@ class ContractLetter extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'primary_candidates',
         'confirmed_candidates',
@@ -27,13 +28,13 @@ class ContractLetter extends Model
         'custom_message' => 'array',
     ];
 
-    // Many-to-Many relationship with User
-    public function users()
+    // Define relationship to the User model (agent_id holds user_id)
+    public function agent()
     {
-        return $this->belongsToMany(User::class, 'contract_letter_user'); // Define pivot table if necessary
+        return $this->belongsTo(User::class, 'agent_id');
     }
 
-    // One-to-One relationship with DemandLetterIssue
+    // Define the relationship with DemandLetterIssue
     public function demandLetterIssue()
     {
         return $this->belongsTo(DemandLetterIssue::class, 'demand_letter_id');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContractLetter;
+
 use App\Models\DemandLetterIssueUser;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -62,6 +64,28 @@ class DemandLetterIssueUserController extends Controller
         $users = User::whereIn('id', $candidateList)
             ->where('created_by', $agent_id)
             ->where('role_id', 5)
+            ->with([
+                'candidate',
+                'partner',
+                'createdBy',
+                'candidate.designation',
+                'role'
+            ])
+            ->get();
+
+        return response()->json($users);
+
+    }
+    public function getSelectedCandidateFromAdmin($demmand_letter_id, Request $request)
+    {
+        $demandLetterIssueUser = ContractLetter::where('demand_letter_id', $demmand_letter_id )
+        ->first();
+        Log::info('saiful',['hello'=> $demandLetterIssueUser]);
+        // Step 2: Get the candidate_list and decode it if necessary
+        $candidateList =$demandLetterIssueUser->primary_candidates;
+
+        // Step 3: Retrieve users whose ids are in the candidate_list
+        $users = User::whereIn('id', $candidateList)
             ->with([
                 'candidate',
                 'partner',
