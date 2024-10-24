@@ -275,12 +275,12 @@ Route::post('/start_call', [VideoCallController::class, 'startCall']);
     // Basic resource routes for ContractLetter
     Route::resource('contract', ContractLetterController::class);
     Route::post('already_send_varify', [ContractLetterController::class, 'already_send_varify']);
-    Route::get('admin_show', [ContractLetterController::class, 'adminShow']);
-    Route::post('admin_approve/{id}', [ContractLetterController::class, 'adminApprove']);
-    Route::post('admin_reject/{id}', [ContractLetterController::class, 'adminReject']);
-    Route::get('agent_show', [ContractLetterController::class, 'agentShow']);
-    Route::post('agent_approve/{id}', [ContractLetterController::class, 'agentApprove']);
-    Route::post('agent_reject/{id}', [ContractLetterController::class, 'agentReject']);
+    // Route::get('admin_show', [ContractLetterController::class, 'adminShow']);
+    // Route::post('admin_approve/{id}', [ContractLetterController::class, 'adminApprove']);
+    // Route::post('admin_reject/{id}', [ContractLetterController::class, 'adminReject']);
+    // Route::get('agent_show', [ContractLetterController::class, 'agentShow']);
+    // Route::post('agent_approve/{id}', [ContractLetterController::class, 'agentApprove']);
+    // Route::post('agent_reject/{id}', [ContractLetterController::class, 'agentReject']);
 
 
 
