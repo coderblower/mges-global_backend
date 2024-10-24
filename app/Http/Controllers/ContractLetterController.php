@@ -78,6 +78,77 @@ class ContractLetterController extends Controller
 
 
     }
+    public function agentApprove($id)
+    {
+        $contract = ContractLetter::where('demand_letter_id', $id)->first();
+
+        if ($contract) {
+            $contract->update([
+                'agency_agree' => now(),
+            ]);
+            return response()->json(['message' => 'Agent approved successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Contract not found'], 404);
+        }
+    }
+
+    public function agentReject($id)
+{
+    $contract = ContractLetter::where('demand_letter_id', $id)->first();
+
+    if ($contract) {
+        $contract->update([
+            'agency_reject' => now(),
+        ]);
+        return response()->json(['message' => 'Agent rejected successfully'], 200);
+    } else {
+        return response()->json(['message' => 'Contract not found'], 404);
+    }
+}
+
+
+    public function agentShow()
+    {
+        $contracts = ContractLetter::whereNotNull('admin_approve')->get();
+        return response()->json($contracts);
+    }
+
+
+    public function adminShow()
+{
+    $contracts = ContractLetter::whereNotNull('primary_candidates')->get();
+    return response()->json($contracts);
+}
+
+public function adminApprove($id)
+{
+    $contract = ContractLetter::where('demand_letter_id', $id)->first();
+
+    if ($contract) {
+        $contract->update([
+            'admin_approve' => now(),
+        ]);
+        return response()->json(['message' => 'Admin approved successfully'], 200);
+    } else {
+        return response()->json(['message' => 'Contract not found'], 404);
+    }
+}
+
+public function adminReject($id)
+{
+    $contract = ContractLetter::where('demand_letter_id', $id)->first();
+
+    if ($contract) {
+        $contract->update([
+            'admin_reject' => now(),
+        ]);
+        return response()->json(['message' => 'Admin rejected successfully'], 200);
+    } else {
+        return response()->json(['message' => 'Contract not found'], 404);
+    }
+}
+
+
 
     public function show(ContractLetter $contractLetter)
     {
