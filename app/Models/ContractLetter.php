@@ -39,4 +39,11 @@ class ContractLetter extends Model
     {
         return $this->belongsTo(DemandLetterIssue::class, 'demand_letter_id');
     }
+
+    public function form()
+    {
+        return $this->hasOne(ContractLetterForm::class);
+    }
+    
+
 }

@@ -24,6 +24,7 @@ use App\Http\Controllers\DemandLetterIssueUserController;
 use App\Http\Controllers\VideoCallController;
 use App\Http\Controllers\ContractLetterController;
 use App\Models\DemandLetter;
+use App\Http\Controllers\ContractLetterFormController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -292,6 +293,13 @@ Route::post('/start_call', [VideoCallController::class, 'startCall']);
    });
 
 
+   Route::group(['middleware' => 'api', 'prefix' => 'contract_letter_form'], function () {
+    Route::get('/', [ContractLetterFormController::class, 'index']);
+    Route::post('/', [ContractLetterFormController::class, 'store']);
+    Route::get('{contractLetterId}', [ContractLetterFormController::class, 'show']);
+    Route::put('{contractLetterId}', [ContractLetterFormController::class, 'update']);
+    Route::delete('{id}', [ContractLetterFormController::class, 'destroy']);
+});
 
 
 
