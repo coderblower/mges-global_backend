@@ -78,9 +78,9 @@ class ContractLetterController extends Controller
         return response()->json(['exists' => false], 200);
     }
 
-    public function agentApprove($id)
+    public function agencyApprove($id)
     {
-        $contract = ContractLetter::where('demand_letter_id', $id)->first();
+        $contract = ContractLetter::find($id);
 
         if ($contract) {
             $contract->update([
@@ -92,9 +92,12 @@ class ContractLetterController extends Controller
         }
     }
 
-    public function agentReject($id)
+
+
+    public function agencyReject($id)
 {
-    $contract = ContractLetter::where('demand_letter_id', $id)->first();
+    $contract = ContractLetter::find($id);
+
 
     if ($contract) {
         $contract->update([
@@ -107,7 +110,7 @@ class ContractLetterController extends Controller
 }
 
 
-    public function agentShow()
+    public function agencyShow()
     {
         $contracts = ContractLetter::whereNotNull('admin_approve')->get();
         return response()->json($contracts);
@@ -147,6 +150,97 @@ class ContractLetterController extends Controller
         return response()->json($contracts);
     }
 
+    public function AgencyShowApprovedByAdmin()
+    {
+        // Eager load users, demand letter issues, and pre-demand letters related to the contracts
+        $contracts = ContractLetter::with([
+                'agent',
+                'agent.partner',
+                'demandLetterIssue',
+                'demandLetterIssue.preDemandLetter', // BelongsTo relationship
+            ])
+            ->whereNotNull('primary_candidates')
+            ->whereNotNull('admin_approve')
+            ->where(function ($query) {
+                $query->whereNull('agency_agree')
+                      ->WhereNull('agency_reject');
+            })
+            ->get();
+
+        return response()->json($contracts);
+    }
+
+
+    public function AdminShowApprovedByAgency()
+    {
+        // Eager load users, demand letter issues, and pre-demand letters related to the contracts
+        $contracts = ContractLetter::with([
+                'agent',
+                'agent.partner',
+                'demandLetterIssue',
+                'demandLetterIssue.preDemandLetter', // BelongsTo relationship
+            ])
+            ->where(function ($query) {
+                $query->whereNotNull('agency_agree');
+                $query->whereNull('admin_sent_agent');
+            })
+            ->get();
+
+        return response()->json($contracts);
+    }
+
+    public function AdminShowApprovedByAgencyVarified()
+    {
+        // Eager load users, demand letter issues, and pre-demand letters related to the contracts
+        $contracts = ContractLetter::with([
+                'agent',
+                'agent.partner',
+                'demandLetterIssue',
+                'demandLetterIssue.preDemandLetter', // BelongsTo relationship
+            ])
+            ->where(function ($query) {
+                $query->whereNotNull('agency_agree');
+                $query->whereNotNull('admin_sent_agent');
+            })
+            ->get();
+
+        return response()->json($contracts);
+    }
+
+
+    public function AgencyShowApproved()
+    {
+        // Eager load users, demand letter issues, and pre-demand letters related to the contracts
+        $contracts = ContractLetter::with([
+                'agent',
+                'agent.partner',
+                'demandLetterIssue',
+                'demandLetterIssue.preDemandLetter', // BelongsTo relationship
+            ])
+            ->whereNotNull('primary_candidates')
+            ->whereNotNull('admin_approve')
+            ->whereNotNull('agency_agree')
+            ->get();
+
+        return response()->json($contracts);
+    }
+
+
+    public function AgencyShowRejected()
+    {
+        // Eager load users, demand letter issues, and pre-demand letters related to the contracts
+        $contracts = ContractLetter::with([
+                'agent',
+                'agent.partner',
+                'demandLetterIssue',
+                'demandLetterIssue.preDemandLetter', // BelongsTo relationship
+            ])
+            ->whereNotNull('agency_reject')
+            ->get();
+
+        return response()->json($contracts);
+    }
+
 
 public function adminApprove($id)
 {
@@ -155,6 +249,21 @@ public function adminApprove($id)
     if ($contract) {
         $contract->update([
             'admin_approve' => now(),
+        ]);
+        return response()->json(['message' => 'Admin approved successfully'], 200);
+    } else {
+        return response()->json(['message' => 'Contract not found'], 404);
+    }
+}
+
+
+public function adminAproveForAgent($id)
+{
+    $contract = ContractLetter::find($id);
+
+    if ($contract) {
+        $contract->update([
+            'admin_sent_agent' => now(),
         ]);
         return response()->json(['message' => 'Admin approved successfully'], 200);
     } else {
@@ -175,6 +284,20 @@ public function adminReject($id)
         return response()->json(['message' => 'Contract not found'], 404);
     }
 }
+
+public function agent()
+{
+    if(!auth()->user()?->id){
+        return ['faild'=> ' no data found'];
+    }
+
+    $demandIds = ContractLetter::whereJsonContains('primary_candidates', auth()->user()->id)
+                 ->pluck('id');
+
+    return response()->json($demandIds);
+}
+
+
 
 
 

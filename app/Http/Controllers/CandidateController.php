@@ -679,6 +679,23 @@ class CandidateController extends Controller
             ]);
         }
     }
+    public function getCandidateSignleForCotractLetter($id){
+
+        try {
+            $data = User::where('id', $id)->with('candidate')->first();
+            return response()->json([
+                'success' => true,
+                'message' => 'Successful!',
+                'data' => $data,
+            ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'failed!',
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
     public function saveQr(Request $request)
     {
         try {

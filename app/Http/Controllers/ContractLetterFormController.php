@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContractLetter;
 use App\Models\ContractLetterForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +17,8 @@ class ContractLetterFormController extends Controller
 
     public function store(Request $request)
     {
+
+        Log::info('This is an informational message.', ['hello'=>[$request->all()]]);
         // Validate the request
         $request->validate([
             'contract_title' => 'required',
@@ -27,7 +30,7 @@ class ContractLetterFormController extends Controller
             'issued_date' => 'required|date',
             'contract_letter_id' => 'required|exists:contract_letters,id', // ensure the contract_letter_id exists
         ]);
-    
+
         // Create a new ContractLetterForm
         $contractLetterForm = new ContractLetterForm();
         $contractLetterForm->contract_title = $request->contract_title;
@@ -38,25 +41,32 @@ class ContractLetterFormController extends Controller
         $contractLetterForm->description = $request->description;
         $contractLetterForm->issued_date = $request->issued_date;
         $contractLetterForm->contract_letter_id = $request->contract_letter_id; // Ensure this line is present
-    
+
         // Save the model
         $contractLetterForm->save();
-    
+
+        if($contractLetterForm){
+            $contractLetter = ContractLetter::find($contractLetterForm->contract_letter_id);
+            $contractLetter->agency_agree = now();
+            $contractLetter->save();
+
+        }
+
         return response()->json(['message' => 'Contract Letter Form created successfully!', 'data' => $contractLetterForm], 201);
     }
-    
+
     public function show($contractLetterId)
     {
         // Use where to find the form by contract_letter_id
         $form = ContractLetterForm::where('contract_letter_id', $contractLetterId)->first();
-    
+
         if (!$form) {
             return response()->json(['message' => 'Contract Letter Form not found.'], 404);
         }
-    
+
         return response()->json($form);
     }
-    
+
 
     public function update(Request $request, $contractLetterId)
     {

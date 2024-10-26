@@ -280,11 +280,18 @@ Route::post('/start_call', [VideoCallController::class, 'startCall']);
     Route::post('already_send_varify', [ContractLetterController::class, 'already_send_varify']);
     Route::get('admin_show', [ContractLetterController::class, 'adminShow']);
     Route::get('admin_show_approved', [ContractLetterController::class, 'adminShowApproved']);
+    Route::get('agency_show_approved_by_admin', [ContractLetterController::class, 'AgencyShowApprovedByAdmin']);
+    Route::get('admin_show_agency_approved_contract_letter', [ContractLetterController::class, 'AdminShowApprovedByAgency']);
+    Route::get('admin_show_agency_approved_contract_letter_varified', [ContractLetterController::class, 'AdminShowApprovedByAgencyVarified']);
+    Route::get('agency_show_approved', [ContractLetterController::class, 'AgencyShowApproved']);
+    Route::get('agency_show_rejected', [ContractLetterController::class, 'AgencyShowRejected']);
     Route::post('admin_approve/{id}', [ContractLetterController::class, 'adminApprove']);
+    Route::post('admin_approve_for_agent/{id}', [ContractLetterController::class, 'adminAproveForAgent']);
     Route::post('admin_reject/{id}', [ContractLetterController::class, 'adminReject']);
-    Route::get('agent_show', [ContractLetterController::class, 'agentShow']);
-    Route::post('agent_approve/{id}', [ContractLetterController::class, 'agentApprove']);
-    Route::post('agent_reject/{id}', [ContractLetterController::class, 'agentReject']);
+    Route::get('agency_show', [ContractLetterController::class, 'agencyShow']);
+    Route::post('agency_approve/{id}', [ContractLetterController::class, 'agenyApprove']);
+    Route::post('agency_reject/{id}', [ContractLetterController::class, 'agencyReject']);
+    Route::post('agent', [ContractLetterController::class, 'agent']);
 
 
 
@@ -299,6 +306,11 @@ Route::post('/start_call', [VideoCallController::class, 'startCall']);
     Route::get('{contractLetterId}', [ContractLetterFormController::class, 'show']);
     Route::put('{contractLetterId}', [ContractLetterFormController::class, 'update']);
     Route::delete('{id}', [ContractLetterFormController::class, 'destroy']);
+
+    Route::post('/candidate/{id}', [CandidateController::class, 'getCandidateSignleForCotractLetter']);
+
+
+
 });
 
 

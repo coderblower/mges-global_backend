@@ -20,12 +20,14 @@ class ContractLetter extends Model
         'admin_approve',
         'admin_reject',
         'custom_message',
+        'admin_sent_agent'
     ];
 
     protected $casts = [
         'primary_candidates' => 'array',
         'confirmed_candidates' => 'array',
         'custom_message' => 'array',
+        'admin_sent_agent' => 'date',
     ];
 
     // Define relationship to the User model (agent_id holds user_id)
@@ -44,6 +46,6 @@ class ContractLetter extends Model
     {
         return $this->hasOne(ContractLetterForm::class);
     }
-    
+
 
 }
