@@ -2023,3 +2023,52 @@
 #39 C:\\Users\\BNM\\Documents\\bnm WEB\\mgs\\mges-global_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\BNM\\\\Do...')
 #40 {main}
 "} 
+[2024-10-27 06:32:56] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:32:56] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:33:02] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:33:02] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:33:06] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:33:06] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:36:13] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:36:13] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:49:32] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:49:33] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 06:58:31] local.INFO: This is an informational message. {"hello":[{"contract_title":"Est eius itaque aut","employers_title":"Facilis eos totam n","work_address":"Iure dolor aliquip e","employer_phone":"+1 (769) 258-5811","email":"keja@mailinator.com","description":"<p>Eos, enim et minus r.</p>","issued_date":"2008-04-30","contract_letter_id":"3"}]} 
+[2024-10-27 06:59:41] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-27 06:51:00","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 06:59:41] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 06:59:41] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-27 06:51:00","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 06:59:41] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 06:59:46] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-27 06:51:00","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 06:59:46] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 06:59:47] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-27 06:51:00","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 06:59:47] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 07:02:56] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-27 06:51:00","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 07:02:57] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 07:02:57] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-27 06:51:00","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 07:02:57] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 07:29:03] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-17 13:28:14","admin_reject":null,"custom_message":null,"admin_sent_agent":null,"created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 07:29:03] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 07:29:03] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-17 13:28:14","admin_reject":null,"custom_message":null,"admin_sent_agent":null,"created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T06:59:36.000000Z"}}} 
+[2024-10-27 07:29:03] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 07:41:17] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 07:41:17] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 09:06:38] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":12,"agent_id":8}} 
+[2024-10-27 09:06:38] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":12,"agent_id":8}} 
+[2024-10-27 09:06:53] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":11,"agent_id":8}} 
+[2024-10-27 09:06:53] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":11,"agent_id":8}} 
+[2024-10-27 09:07:08] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 09:07:08] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":8}} 
+[2024-10-27 09:07:26] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":11,"agent_id":8}} 
+[2024-10-27 09:07:26] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":11,"agent_id":8}} 
+[2024-10-27 09:07:51] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":12,"agent_id":8}} 
+[2024-10-27 09:07:51] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":12,"agent_id":8}} 
+[2024-10-27 09:15:35] local.INFO: This is an informational message. {"hello":[{"contract_title":"Laborum Ipsum iure","employers_title":"Laboriosam maiores","work_address":"Minus blanditiis nob","employer_phone":"+1 (327) 123-2614","email":"fygequ@mailinator.com","description":"<p>Quia omnis facilis s.</p>","issued_date":"2001-03-27","contract_letter_id":"4"}]} 
+[2024-10-27 09:15:42] local.INFO: This is an informational message. {"hello":[{"contract_title":"Reprehenderit tempor","employers_title":"Eum qui quia et aspe","work_address":"Perferendis blanditi","employer_phone":"+1 (459) 539-2931","email":"qoky@mailinator.com","description":"<p>Excepteur esse, eius.</p>","issued_date":"2008-04-19","contract_letter_id":"5"}]} 
+[2024-10-27 09:16:49] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-17 13:28:14","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T09:16:30.000000Z"}}} 
+[2024-10-27 09:16:50] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 09:16:50] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-17 13:28:14","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T09:16:30.000000Z"}}} 
+[2024-10-27 09:16:50] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 09:16:56] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-17 13:28:14","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T09:16:30.000000Z"}}} 
+[2024-10-27 09:16:56] local.INFO: saiful {"hello":{"App\\Models\\ContractLetter":{"id":3,"primary_candidates":[17,18],"confirmed_candidates":null,"agent_id":8,"demand_letter_id":10,"agency_agree":"2024-10-27 06:58:31","agency_reject":null,"admin_approve":"2024-10-17 13:28:14","admin_reject":null,"custom_message":null,"admin_sent_agent":"2024-10-27T00:00:00.000000Z","created_at":"2024-10-27T06:36:15.000000Z","updated_at":"2024-10-27T09:16:30.000000Z"}}} 
+[2024-10-27 09:16:56] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
+[2024-10-27 09:16:57] local.INFO: hello {"data":{"primary_candidates":[],"demand_letter_id":10,"agent_id":1}} 
